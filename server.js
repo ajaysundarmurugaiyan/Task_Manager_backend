@@ -7,7 +7,7 @@ const authRoutes = require('./routes/auth');
 const app = express();
 
 // CORS configuration
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
+const allowedOrigins = ['https://taks-manager-frontend.vercel.app/'];
 
 app.use(cors(
 //   {
