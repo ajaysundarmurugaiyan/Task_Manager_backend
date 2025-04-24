@@ -12,6 +12,11 @@ router.post('/register', auth, checkRole(['admin']), async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    // Validate required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -26,7 +31,9 @@ router.post('/register', auth, checkRole(['admin']), async (req, res) => {
       role: role || 'user'
     });
 
+    // Save user to database
     await user.save();
+    console.log('User created successfully:', user._id);
 
     res.status(201).json({
       message: 'User created successfully',
@@ -38,6 +45,7 @@ router.post('/register', auth, checkRole(['admin']), async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Error in user registration:', error);
     res.status(400).json({ error: error.message });
   }
 });
